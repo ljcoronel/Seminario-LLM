@@ -10,6 +10,9 @@ corpusB = unicodedata.normalize("NFC", corpusB)
 corpusA = corpusA.split()
 corpusB = ''.join(c for c in corpusB if c.isalpha() or c.isspace()).split()
 
+cantidadPalabrasA = len(corpusA)
+cantidadPalabrasB = len(corpusB)
+
 vocabularioInicialA = set()
 vocabularioInicialB = set()
 
@@ -19,8 +22,8 @@ for palabra in corpusA:
 for palabra in corpusB:
     vocabularioInicialB.update(palabra)
 
-print("cantidad de palabras Corpus A: ", len(corpusA))
-print("cantidad de palabras Corpus B: ", len(corpusB))
+print("cantidad de palabras Corpus A: ", cantidadPalabrasA)
+print("cantidad de palabras Corpus B: ", cantidadPalabrasB)
 print("vocabulario inicial Corpus A: ", vocabularioInicialA)
 print("vocabulario inicial Corpus B: ", vocabularioInicialB)
 
@@ -29,17 +32,19 @@ def tokenizar_palabra(palabra):
     tokens.append("</w>")
     return tokens
 
-tokensA = []
-tokensB = []
+tokensA = corpusA
+tokensB = corpusB
+corpusA = []
+corpusB = []
 
-for palabra in corpusA:
-    tokensA.append(tokenizar_palabra(palabra))
+for palabra in tokensA:
+    corpusA.append(tokenizar_palabra(palabra))
 
-for palabra in corpusB:
-    tokensB.append(tokenizar_palabra(palabra))
+for palabra in tokensB:
+    corpusB.append(tokenizar_palabra(palabra))
 
-print("palabras Corpus A: ", tokensA)
-print("palabras Corpus B: ", tokensB)
+print("palabras Corpus A: ", corpusA)
+#print("palabras Corpus B: ", corpusB)
 
 def count_pairs(corpus):
     pares = {}
@@ -52,21 +57,46 @@ def count_pairs(corpus):
                 pares[par]=1
     return pares
 
-paresA = sorted(
-    count_pairs(tokensA).items(),
+paresA = count_pairs(corpusA)
+
+paresOrdenadosA = sorted(
+    paresA.items(),
     key=lambda x: x[1],
     reverse=True
 )
 
-paresB = sorted(
-    count_pairs(tokensB).items(),
+paresB = count_pairs(corpusB)
+
+paresOrdenadosB = sorted(
+    paresB.items(),
     key=lambda x: x[1],
     reverse=True
 )
 print ("10 pares mas frecuentes para Corpus A:")
-for par, frecuencia in paresA[:10]:
+for par, frecuencia in paresOrdenadosA[:10]:
     print(par, "->", frecuencia)
 
 print ("10 pares mas frecuentes para Corpus B:")
-for par, frecuencia in paresB[:10]:
+for par, frecuencia in paresOrdenadosB[:10]:
     print(par, "->", frecuencia)
+
+def merge_pair(corpus, par):
+    nuevo_corpus = []
+    for palabra in corpus:
+        nueva_palabra = []
+        i = 0
+        while i < len(palabra):
+            if i < len(palabra) - 1 and (palabra[i], palabra[i + 1]) == par:
+                nueva_palabra.append(palabra[i] + palabra[i + 1])
+                i += 2
+            else:
+                nueva_palabra.append(palabra[i])
+                i += 1
+        nuevo_corpus.append(nueva_palabra)
+    return nuevo_corpus
+
+par_mas_frecuente = max(paresA, key=paresA.get)
+print("par fusionado: ", par_mas_frecuente[0], par_mas_frecuente[1])
+
+corpusNuevoA = merge_pair(corpusA, par_mas_frecuente)
+print("corpus nuevo: ", corpusNuevoA)
