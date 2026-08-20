@@ -1,0 +1,7 @@
+el perro corre
+el perro juega
+el gato corre
+el gato duerme
+el perro duerme
+la casa es grande
+la casa tiene patio
