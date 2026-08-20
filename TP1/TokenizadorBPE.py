@@ -23,3 +23,20 @@ print("cantidad de palabras Corpus A: ", len(corpusA))
 print("cantidad de palabras Corpus B: ", len(corpusB))
 print("vocabulario inicial Corpus A: ", vocabularioInicialA)
 print("vocabulario inicial Corpus B: ", vocabularioInicialB)
+
+def tokenizar_palabra(palabra):
+    tokens = list(palabra)
+    tokens.append("</w>")
+    return tokens
+
+tokensA = []
+tokensB = []
+
+for palabra in corpusA:
+    tokensA.append(tokenizar_palabra(palabra))
+
+for palabra in corpusB:
+    tokensB.append(tokenizar_palabra(palabra))
+
+print("palabras Corpus A: ", tokensA)
+print("palabras Corpus B: ", tokensB)
