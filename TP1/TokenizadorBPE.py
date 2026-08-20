@@ -40,3 +40,33 @@ for palabra in corpusB:
 
 print("palabras Corpus A: ", tokensA)
 print("palabras Corpus B: ", tokensB)
+
+def count_pairs(corpus):
+    pares = {}
+    for palabra in corpus:
+        for i in range(len(palabra)-1):
+            par = (palabra[i], palabra[i+1])
+            if par in pares:
+                pares[par]+=1
+            else:
+                pares[par]=1
+    return pares
+
+paresA = sorted(
+    count_pairs(tokensA).items(),
+    key=lambda x: x[1],
+    reverse=True
+)
+
+paresB = sorted(
+    count_pairs(tokensB).items(),
+    key=lambda x: x[1],
+    reverse=True
+)
+print ("10 pares mas frecuentes para Corpus A:")
+for par, frecuencia in paresA[:10]:
+    print(par, "->", frecuencia)
+
+print ("10 pares mas frecuentes para Corpus B:")
+for par, frecuencia in paresB[:10]:
+    print(par, "->", frecuencia)
