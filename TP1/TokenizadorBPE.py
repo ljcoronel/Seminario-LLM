@@ -95,8 +95,35 @@ def merge_pair(corpus, par):
         nuevo_corpus.append(nueva_palabra)
     return nuevo_corpus
 
-par_mas_frecuente = max(paresA, key=paresA.get)
-print("par fusionado: ", par_mas_frecuente[0], par_mas_frecuente[1])
+cantidadInicialTokens = sum(len(palabra) for palabra in corpusA)
 
-corpusNuevoA = merge_pair(corpusA, par_mas_frecuente)
-print("corpus nuevo: ", corpusNuevoA)
+merges = []
+
+for i in range(50):
+    pares = count_pairs(corpusA)
+
+    if not pares:
+        break
+
+    par_mas_frecuente = max(pares, key=pares.get)
+
+    merges.append(par_mas_frecuente)
+
+    corpusA = merge_pair(corpusA, par_mas_frecuente)
+
+
+cantidadFinalTokens = sum(len(palabra) for palabra in corpusA)
+
+vocabularioFinal = set()
+
+for palabra in corpusA:
+    vocabularioFinal.update(palabra)
+
+
+print("\nHistorial de fusiones:")
+for i, par in enumerate(merges, start=1):
+    print(i, ".", par)
+
+print("\nCantidad inicial de tokens:", cantidadInicialTokens)
+print("Cantidad final de tokens:", cantidadFinalTokens)
+print("Tamaño del vocabulario:", len(vocabularioFinal))
