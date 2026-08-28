@@ -1,3 +1,4 @@
+import time
 from collections import Counter
 
 #Parte 1 – Preparación del Corpus
@@ -42,7 +43,8 @@ for par, frecuencia in count_pairs(corpus_a).most_common(10):
     print(f"{par} -> {frecuencia}")
 
 #Parte 4 – Primera Fusión BPE
-nuevo_corpus_a = corpus_a.copy()
+nuevo_corpus_a_1_fusion = corpus_a.copy()
+conjunto_de_tokens_1_fusion = conjunto_de_tokens.copy()
 historial_fusiones = []
 
 def actualizar(corpus, par):
@@ -71,20 +73,21 @@ def fusion(corpus, conjunto_de_tokens, historial_fusiones, max_item):
         corpus = actualizar(corpus, par_mas_repe)
     return corpus
 
-nuevo_corpus_a = fusion(nuevo_corpus_a, conjunto_de_tokens, historial_fusiones, 1)
+nuevo_corpus_a_1_fusion = fusion(nuevo_corpus_a_1_fusion, conjunto_de_tokens_1_fusion, historial_fusiones, 1)
 
 print("PARTE 4")
 print("Pares fusionados corpus A:")
 for i, par in historial_fusiones:
     print(f"{i} : {par}")
 print("Corpus A antes:", corpus_a)
-print("Corpus A despues:", nuevo_corpus_a)
+print("Corpus A despues:", nuevo_corpus_a_1_fusion)
 
 #Parte 5 – Entrenamiento Completo
 nuevo_corpus_a_50_fusiones = corpus_a.copy()
+conjunto_de_tokens_50_fusion = conjunto_de_tokens.copy()
 historial_fusiones = []
-nuevo_corpus_a_50_fusiones = fusion(nuevo_corpus_a_50_fusiones, conjunto_de_tokens, historial_fusiones, 50)
-cantidad_final_token = len(conjunto_de_tokens)
+nuevo_corpus_a_50_fusiones = fusion(nuevo_corpus_a_50_fusiones, conjunto_de_tokens_50_fusion, historial_fusiones, 50)
+cantidad_final_token = len(conjunto_de_tokens_50_fusion)
 
 print("PARTE 5")
 print("Cantidad inicial de tokens corpus A:", cantidad_inicial_token)
@@ -92,3 +95,36 @@ print("Cantidad final de tokens corpus A:", cantidad_final_token)
 print("Tamaño del vocabulario corpus A:", len(set(nuevo_corpus_a_50_fusiones)))
 
 #Parte 6 - Diferentes iteraciones
+nuevo_corpus_a_30_fusiones = corpus_a.copy()
+conjunto_de_tokens_30_fusion = conjunto_de_tokens.copy()
+historial_fusiones = []
+inicio = time.perf_counter()
+nuevo_corpus_a_30_fusiones = fusion(nuevo_corpus_a_30_fusiones, conjunto_de_tokens_30_fusion, historial_fusiones, 30)
+fin = time.perf_counter()
+cantidad_final_token = len(conjunto_de_tokens_30_fusion)
+print("PARTE 6")
+print("Cantidad promedio de tokens por palabra corpus A 30 fusiones:", cantidad_de_palabras/cantidad_final_token)
+print("Tamaño del vocabulario corpus A 30 fusiones:", len(set(nuevo_corpus_a_30_fusiones)))
+print("Tiempo de entrenamiento corpus A 30 fusiones:", fin-inicio)
+
+nuevo_corpus_a_60_fusiones = corpus_a.copy()
+conjunto_de_tokens_60_fusion = conjunto_de_tokens.copy()
+historial_fusiones = []
+inicio = time.perf_counter()
+nuevo_corpus_a_60_fusiones = fusion(nuevo_corpus_a_60_fusiones, conjunto_de_tokens_60_fusion, historial_fusiones, 60)
+fin = time.perf_counter()
+cantidad_final_token = len(conjunto_de_tokens_60_fusion)
+print("Cantidad promedio de tokens por palabra corpus A 60 fusiones:", cantidad_de_palabras/cantidad_final_token)
+print("Tamaño del vocabulario corpus A 60 fusiones:", len(set(nuevo_corpus_a_60_fusiones)))
+print("Tiempo de entrenamiento corpus A 60 fusiones:", fin-inicio)
+
+nuevo_corpus_a_100_fusiones = corpus_a.copy()
+conjunto_de_tokens_100_fusion = conjunto_de_tokens.copy()
+historial_fusiones = []
+inicio = time.perf_counter()
+nuevo_corpus_a_100_fusiones = fusion(nuevo_corpus_a_100_fusiones, conjunto_de_tokens_100_fusion, historial_fusiones, 100)
+fin = time.perf_counter()
+cantidad_final_token = len(conjunto_de_tokens_100_fusion)
+print("Cantidad promedio de tokens por palabra corpus A 100 fusiones:", cantidad_de_palabras/cantidad_final_token)
+print("Tamaño del vocabulario corpus A 100 fusiones:", len(set(nuevo_corpus_a_100_fusiones)))
+print("Tiempo de entrenamiento corpus A 100 fusiones:", fin-inicio)
