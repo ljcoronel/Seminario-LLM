@@ -28,20 +28,22 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Me acaba de llegar el celular que compré y la pantalla está completamente destrozada. No prende. Lo necesito para trabajar.”,
   "nivel_urgencia": "Alta",
-  "categoria": "Producto Defectuoso"
+  "categoria": "Producto Defectuoso",
+  "contexto_politicas": "### 2.2 Exclusiones Taxativas de la Garantía: La presente garantía perderá toda validez jurídica y comercial [...] si el informe técnico determina que el producto presenta anomalías derivadas de: Mal Uso, Negligencia o Abuso Operativo: Daños estructurales causados por caídas accidentales o intencionales, raspaduras, golpes evidentes, fracturas de carcasas, rotura de pantallas..."
 }``  
 *OUTPUT*:  
 ``{
-  "cadena_de_pensamiento": "1. La categoría del problema es 'Producto Defectuoso', ya que el cliente reporta daños físicos en el artículo recibido. 2. Según las políticas de la empresa, un producto que llega roto o inoperable dentro de los primeros 30 días se clasifica con urgencia Alta y aplica la política de 'Reembolsar'.",
-  "politica_aplicada": "Reembolsar",
-  "codigo_accion_sistema": "ACC_REEMBOLSO"
+  "cadena_de_pensamiento": "1. El cliente reporta un daño físico grave (pantalla destrozada) al recibir el producto, categoría 'Producto Defectuoso' o 'Envío/Logística'. 2. Según la Sección 2.2 de las políticas, las roturas de pantalla están excluidas de la garantía por defecto, por lo que no aplica un reembolso automático. La política aplicable es 'Pedir más datos' para solicitar evidencia fotográfica y evaluar si fue un siniestro del transporte antes de tomar una resolución.",
+  "politica_aplicada": "Pedir más datos",
+  "codigo_accion_sistema": "ACC_PEDIR_DATOS"
 }``
 ### Ejemplo 2: Faltante de accesorio secundario (Urgencia Baja)
 *INPUT*:  
 ``{
   "mensaje_usuario": "Recibí la procesadora, funciona bárbaro, pero en la caja no vino la espátula de plástico que decía traer de regalo.",
   "nivel_urgencia": "Baja",
-  "categoria": "Producto Defectuoso"
+  "categoria": "Producto Defectuoso",
+  "contexto_politicas": "### 2.1 Cobertura de Electrodomésticos y Línea Blanca: Alcance de la Cobertura: Esta garantía ampara de forma única y exclusiva aquellos defectos de fabricación, fallas de componentes internos, vicios ocultos en los materiales o problemas de ensamblaje que impidan el funcionamiento regular..."
 }``  
 *OUTPUT*:  
 ``{
@@ -54,20 +56,22 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Hice una compra ayer a la noche y revisando el homebanking veo que me cobraron dos veces el mismo monto. ¡Necesito la plata ya!",
   "nivel_urgencia": "Alta",
-  "categoria": "Facturación"
+  "categoria": "Facturación",
+  "contexto_politicas": "### 3.2 Requisitos y Procedimientos de Solicitud Fiscal: Para que el departamento de administración evalúe y apruebe la confección de una Nota de Crédito, El Usuario deberá remitir una solicitud por canales formales adjuntando la siguiente documentación obligatoria: 1. Comprobante Original [...] 2. Identificación Fiscal [...] 3. Justificación de Causa..."
 }``  
 *OUTPUT*:  
 ``{
-  "cadena_de_pensamiento": "1. El problema reportado es un cargo doble en el medio de pago, lo que entra en la categoría de 'Facturación'. 2. Según las políticas, detectar un cobro duplicado por error en la pasarela de pagos representa una urgencia Alta, y la política a aplicar es 'Reembolsar' el dinero sobrante.",
-  "politica_aplicada": "Reembolsar",
-  "codigo_accion_sistema": "ACC_REEMBOLSO"
+  "cadena_de_pensamiento": "1. El problema es un cargo doble en el medio de pago, categoría 'Facturación'. 2. Según la Sección 3.2, para emitir notas de crédito o procesar devoluciones comerciales, se requiere que el usuario envíe documentación formal (Comprobante, Identificación y Justificación). La política a aplicar es 'Pedir más datos' para recolectar esta información antes de proceder al reembolso.",
+  "politica_aplicada": "Pedir más datos",
+  "codigo_accion_sistema": "ACC_PEDIR_DATOS"
 }``
 ### Ejemplo 4: Producto distinto al comprado (Urgencia Alta)
 *INPUT*:  
 ``{
   "mensaje_usuario": "Yo compré una campera negra talle L y me llegó una caja con una licuadora. Es una locura, necesito mi campera o la plata.",
   "nivel_urgencia": "Alta",
-  "categoria": "Envío/Logística"
+  "categoria": "Envío/Logística",
+  "contexto_politicas": "## SECCIÓN 4: DISPOSICIONES LEGALES COMPLEMENTARIAS: Derecho de Revocación / Botón de Arrepentimiento: Conforme a las normativas de defensa del consumidor vigentes para transacciones a distancia, El Usuario dispone de un plazo de 10 días corridos [...] para revocar su aceptación de compra sin expresión de causa ni penalización alguna. El producto deberá ser devuelto en perfectas condiciones..."
 }``  
 *OUTPUT*:  
 ``{
@@ -80,7 +84,8 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "El código de seguimiento dice que mi pedido fue entregado hoy a las 14hs, pero yo estuve en casa todo el día y no tocó timbre nadie.",
   "nivel_urgencia": "Alta",
-  "categoria": "Envío/Logística"
+  "categoria": "Envío/Logística",
+  "contexto_politicas": "### 1.3 Procedimiento Administrativo Obligatorio ante Pérdida de Paquetes: Plazo para el Reporte de Siniestro: Si el tiempo máximo estimado para su zona ha expirado sin que se refleje la entrega ni actualización en el código de seguimiento, El Usuario dispone de un plazo perentorio de 5 días hábiles para abrir un reporte formal..."
 }``  
 *OUTPUT*:  
 ``{
@@ -93,7 +98,8 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Compré los insumos a mi nombre por error, pero los necesito con Factura A para mi empresa. ¿Tienen forma de cambiarme el ticket?",
   "nivel_urgencia": "Baja",
-  "categoria": "Facturación"
+  "categoria": "Facturación",
+  "contexto_politicas": "### 3.2 Requisitos y Procedimientos de Solicitud Fiscal: [...] 3. Justificación de Causa: Una breve exposición por escrito detallando la causal válida del requerimiento (error de digitación en el nombre/Razón Social, error en el RUT, devolución aprobada de mercadería por servicio técnico...)"
 }``  
 *OUTPUT*:  
 ``{
@@ -106,20 +112,22 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Me llegó un mail del correo diciendo que mi paquete se va a demorar un día más por la tormenta fuerte de ayer. Quería avisarles por las dudas.",
   "nivel_urgencia": "Baja",
-  "categoria": "Envío/Logística"
+  "categoria": "Envío/Logística",
+  "contexto_politicas": "### 1.1 Cobertura Geográfica y Plazos de Entrega Estimados: Cláusula de Excepcionalidad Logística: Los plazos descritos son estimaciones comerciales de buen rendimiento. El Usuario exonera a la empresa de penalizaciones financieras directas en caso de retrasos causados por condiciones climáticas adversas [...] periodos en los cuales los plazos podrán extenderse hasta cinco (5) días hábiles adicionales a lo habitual."
 }``  
 *OUTPUT*:  
 ``{
-  "cadena_de_pensamiento": "1. La consulta es sobre una demora notificada por el operador logístico en pleno tránsito, entrando en 'Envío/Logística'. 2. Según las políticas, al ser una demora operativa (clima) reportada antes del vencimiento máximo, su urgencia es Baja y la acción es 'Reprogramar envío'.",
-  "politica_aplicada": "Reprogramar envío",
-  "codigo_accion_sistema": "ACC_REPROGRAMAR_ENVIO"
+  "cadena_de_pensamiento": "1. La consulta es sobre una demora logística por cuestiones climáticas, categoría 'Envío/Logística'. 2. Según la Cláusula de Excepcionalidad Logística (Sección 1.1), las condiciones climáticas adversas extienden automáticamente el plazo de entrega hasta 5 días hábiles adicionales sin costo extra. No requiere reprogramación pagada. La política es 'Informar' al cliente sobre esta extensión.",
+  "politica_aplicada": "Informar plazos",
+  "codigo_accion_sistema": "ACC_INFORMAR_PLAZOS"
 }``
 ### Ejemplo 8: Detalle estético menor (Urgencia Baja)
 *INPUT*:  
 ``{
   "mensaje_usuario": "La estufa que compré funciona de maravillas y calienta un montón, pero tiene una abolladura chiquita en la parte de atrás. No quiero devolverla, pero quería dejar el reclamo.",
   "nivel_urgencia": "Baja",
-  "categoria": "Producto Defectuoso"
+  "categoria": "Producto Defectuoso",
+  "contexto_politicas": "### 2.2 Exclusiones Taxativas de la Garantía: Mal Uso, Negligencia o Abuso Operativo: Daños estructurales causados por caídas accidentales o intencionales, raspaduras, golpes evidentes, fracturas de carcasas..."
 }``  
 *OUTPUT*:  
 ``{
@@ -132,7 +140,8 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Me llamaron recién del transporte para decirme que hubo un problema con su camioneta y se robaron todo, incluyendo mi paquete.",
   "nivel_urgencia": "Alta",
-  "categoria": "Envío/Logística"
+  "categoria": "Envío/Logística",
+  "contexto_politicas": "### 1.3 Procedimiento Administrativo Obligatorio ante Pérdida de Paquetes: 3. Resolución y Compensación: Una vez que el transportista emita la certificación oficial de \"Pérdida Total Irrecuperable\", la empresa contactará a El Usuario para ejecutar una de las siguientes opciones (a elección del comprador): Reposición inmediata [...] o Reembolso total..."
 }``  
 *OUTPUT*:  
 ``{
@@ -145,13 +154,14 @@ Usar *mensaje_usuario* exclusivamente para aplicar la politica de la empresa.
 ``{
   "mensaje_usuario": "Usé los auriculares dos veces, tienen 10 días desde que me llegaron y el auricular derecho dejó de emitir sonido completamente.",
   "nivel_urgencia": "Alta",
-  "categoria": "Producto Defectuoso"
+  "categoria": "Producto Defectuoso",
+  "contexto_politicas": "### 2.1 Cobertura de Electrodomésticos y Línea Blanca: Mecanismos de Restitución: Ante la validación de una falla de fábrica, la empresa procederá según la normativa técnica vigente a: 1. La reparación técnica gratuita del equipo utilizando componentes y repuestos originales de la marca. 2. El reemplazo directo [...] 3. La rescisión del contrato..."
 }``  
 *OUTPUT*:  
 ``{
-  "cadena_de_pensamiento": "1. El problema trata sobre una falla de funcionamiento importante reportada por el cliente. Categoría 'Producto Defectuoso'. 2. Según las políticas, si el producto presenta una falla grave (deja de funcionar) dentro de los primeros 30 días, se asume urgencia Alta y la acción requerida es 'Reembolsar'.",
-  "politica_aplicada": "Reembolsar",
-  "codigo_accion_sistema": "ACC_REEMBOLSO"
+  "cadena_de_pensamiento": "1. El problema trata sobre una falla de funcionamiento cubierta por garantía (Sección 2.1), categoría 'Producto Defectuoso'. 2. Las políticas establecen que el mecanismo de restitución requiere primero la revisión y reparación técnica del equipo, no un reembolso directo. La acción requerida es 'Generar ticket' para coordinar el ingreso al servicio técnico oficial.",
+  "politica_aplicada": "Generar ticket",
+  "codigo_accion_sistema": "ACC_GENERAR_TICKET"
 }``
 
 
